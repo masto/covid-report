@@ -28,6 +28,8 @@ pandas==1.4.3
     # via -r requirements.in
 ptvsd==4.3.2
     # via -r requirements.in
+pygal==3.0.0
+    # via -r requirements.in
 python-dateutil==2.8.2
     # via pandas
 python-dotenv==0.20.0

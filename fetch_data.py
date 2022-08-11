@@ -1,6 +1,8 @@
 """Module to get the latest COVID data"""
 
 import pandas as pd
+import pygal
+from pygal.style import CleanStyle
 from sodapy import Socrata
 
 # https://health.data.ny.gov/resource/xdss-u53e.csv
@@ -19,7 +21,7 @@ def get_nys_data():
             NYS_DATASET_ID, where="county = 'Nassau'", order="test_date DESC", limit=37
         )
 
-    return (
+    dataframe = (
         pd.DataFrame.from_records(data)
         .astype(
             {
@@ -44,6 +46,18 @@ def get_nys_data():
             .shift(-6)
         )
     )
+
+    return {"daily": dataframe}
+
+
+def make_charts(data):
+    """Generate pretty chart(s)"""
+    chart_7d = pygal.Line(style=CleanStyle)
+    chart_7d.add("", data["daily"][6::-1]["cases_per_100k_7d"])
+
+    charts = {"cases_per_100k_7day": chart_7d}
+
+    return charts
 
 
 if __name__ == "__main__":

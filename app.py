@@ -13,7 +13,9 @@ app = Flask(__name__)
 def index_page():
     """Serve the report up as a web page."""
     data = fetch_data.get_nys_data()
-    return render_template("index.html", data=data, today=data.iloc[0])
+    charts = fetch_data.make_charts(data)
+
+    return render_template("index.html", data=data, charts=charts)
 
 
 if __name__ == "__main__":
