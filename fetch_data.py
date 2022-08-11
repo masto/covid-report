@@ -2,6 +2,8 @@
 
 import pandas as pd
 import pygal
+import logging
+import time
 from pygal.style import CleanStyle
 from sodapy import Socrata
 
@@ -10,12 +12,24 @@ NYS_DATASET_ID = "xdss-u53e"
 # https://health.data.ny.gov/Health/New-York-State-Population-Data-Beginning-2003/e9uj-s3sf
 NASSAU_POPULATION = 1356924
 
+CACHE_TIME = 60 * 60  # 1 hour
+
 
 def get_nys_data():
     """Fetch last 30 days of Nassau County COVID stats.
 
     Augmented with cases/100k and rolling 7-day average.
     """
+
+    # Check cache
+    now = time.monotonic()
+    try:
+        if now < get_nys_data.cached_at + CACHE_TIME:
+            logging.warning("get_nys_data() returning from cache")
+            return get_nys_data.cached_data
+    except AttributeError:
+        pass
+        
     with Socrata("health.data.ny.gov", None) as client:
         data = client.get(
             NYS_DATASET_ID, where="county = 'Nassau'", order="test_date DESC", limit=37
@@ -37,7 +51,8 @@ def get_nys_data():
         )
         .set_index("test_date")
         .assign(
-            cases_per_100k=lambda df: df["new_positives"] / (NASSAU_POPULATION / 100000)
+            cases_per_100k=lambda df: df["new_positives"] /
+            (NASSAU_POPULATION / 100000)
         )
         .assign(
             cases_per_100k_7d=lambda df: df["cases_per_100k"]
@@ -47,7 +62,9 @@ def get_nys_data():
         )
     )
 
-    return {"daily": dataframe}
+    get_nys_data.cached_at = now
+    get_nys_data.cached_data = {"daily": dataframe}
+    return get_nys_data.cached_data
 
 
 def make_charts(data):
