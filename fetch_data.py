@@ -1,5 +1,6 @@
 """Module to get the latest COVID data"""
 
+import base64
 import logging
 import time
 
@@ -69,12 +70,24 @@ def get_nys_data():
 
 def make_charts(data):
     """Generate pretty chart(s)"""
-    chart_7d = pygal.Line(style=CleanStyle)
-    chart_7d.add("", data["daily"][6::-1]["cases_per_100k_7d"])
+    chart_style = CleanStyle(background="white")
+    chart_7d = pygal.Line(style=chart_style)
+    chart_7d.add("", data["daily"][6::-1]["cases_per_100k_7d"].round(1))
 
     charts = {"cases_per_100k_7day": chart_7d}
 
     return charts
+
+
+def render_png_data_uri(graph, **kwargs):
+    """Output a base 64 encoded data uri for a png"""
+    # Force protocol as data uri have none
+    kwargs.setdefault("force_uri_protocol", "https")
+    return "data:image/png;charset=utf-8;base64,%s" % (
+        base64.b64encode(graph.render_to_png(**kwargs))
+        .decode("utf-8")
+        .replace("\n", "")
+    )
 
 
 if __name__ == "__main__":

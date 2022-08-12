@@ -15,6 +15,7 @@
     body, p, div {
       font-family: arial,helvetica,sans-serif;
       font-size: 14px;
+      background: #FFFFFF;
     }
     body {
       color: #000000;
@@ -166,8 +167,9 @@ cases per 100k (7-Day Average)
 <br />
 
 <div>
-  <img src="{{ charts.cases_per_100k_7day.render_data_uri(show_legend = False,
-  explicit_size = True, height = 100, width = 400, margin = 10) }}">
+  <img src="{{ render_png_data_uri(charts.cases_per_100k_7day, show_legend=False,
+  explicit_size=True, height=100, width=400, margin=2, max_scale=5,
+  order_min=0.1, y_labels_major=[0]) }}">
 </div>
 <div>
   {% set prev_day_delta = today["cases_per_100k_7d"] - prev_day["cases_per_100k_7d"] %}

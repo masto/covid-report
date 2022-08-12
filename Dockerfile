@@ -4,6 +4,9 @@ FROM python:3.10-slim
 # Set the working directory to /app
 WORKDIR /app
 
+# Needs libcairo for PNG rendering
+RUN apt update && apt install -y libcairo2
+
 # copy the requirements file used for dependencies
 COPY requirements.txt .
 

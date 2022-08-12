@@ -16,7 +16,12 @@ data = fetch_data.get_nys_data()
 app = Flask(__name__)
 with app.app_context():
     charts = fetch_data.make_charts(data)
-    html = render_template("index.html", data=data, charts=charts)
+    html = render_template(
+        "index.html",
+        data=data,
+        charts=charts,
+        render_png_data_uri=fetch_data.render_png_data_uri,
+    )
 
 message = Mail(
     from_email=os.environ.get("SG_FROM_EMAIL"),

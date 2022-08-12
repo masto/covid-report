@@ -15,7 +15,12 @@ def index_page():
     data = fetch_data.get_nys_data()
     charts = fetch_data.make_charts(data)
 
-    return render_template("index.html", data=data, charts=charts)
+    return render_template(
+        "index.html",
+        data=data,
+        charts=charts,
+        render_png_data_uri=fetch_data.render_png_data_uri,
+    )
 
 
 if __name__ == "__main__":

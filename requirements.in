@@ -5,3 +5,4 @@ ptvsd # Required for debugging.
 python-dotenv
 Flask
 pygal
+cairosvg
