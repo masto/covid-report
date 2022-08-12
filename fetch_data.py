@@ -1,9 +1,10 @@
 """Module to get the latest COVID data"""
 
-import pandas as pd
-import pygal
 import logging
 import time
+
+import pandas as pd
+import pygal
 from pygal.style import CleanStyle
 from sodapy import Socrata
 
@@ -29,7 +30,7 @@ def get_nys_data():
             return get_nys_data.cached_data
     except AttributeError:
         pass
-        
+
     with Socrata("health.data.ny.gov", None) as client:
         data = client.get(
             NYS_DATASET_ID, where="county = 'Nassau'", order="test_date DESC", limit=37
@@ -51,8 +52,7 @@ def get_nys_data():
         )
         .set_index("test_date")
         .assign(
-            cases_per_100k=lambda df: df["new_positives"] /
-            (NASSAU_POPULATION / 100000)
+            cases_per_100k=lambda df: df["new_positives"] / (NASSAU_POPULATION / 100000)
         )
         .assign(
             cases_per_100k_7d=lambda df: df["cases_per_100k"]
