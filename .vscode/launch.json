@@ -51,7 +51,7 @@
             "FLASK_DEBUG": "1"
         },
         "args": [
-            "run"
+            "run", "--host", "0.0.0.0"
         ],
         "jinja": true,
         "justMyCode": true
