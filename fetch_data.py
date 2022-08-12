@@ -3,6 +3,7 @@
 import base64
 import logging
 import time
+import os
 
 import pandas as pd
 import pygal
@@ -32,7 +33,7 @@ def get_nys_data():
     except AttributeError:
         pass
 
-    with Socrata("health.data.ny.gov", None) as client:
+    with Socrata("health.data.ny.gov", os.environ.get("NYS_APP_TOKEN", None)) as client:
         data = client.get(
             NYS_DATASET_ID, where="county = 'Nassau'", order="test_date DESC", limit=37
         )
