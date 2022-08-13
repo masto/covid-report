@@ -1,9 +1,8 @@
 """Module to get the latest COVID data"""
 
-import base64
 import logging
-import time
 import os
+import time
 
 import pandas as pd
 import pygal
@@ -79,17 +78,6 @@ def make_charts(data):
     charts = {"cases_per_100k_7day": chart_7d}
 
     return charts
-
-
-def render_png_data_uri(graph, **kwargs):
-    """Output a base 64 encoded data uri for a png"""
-    # Force protocol as data uri have none
-    kwargs.setdefault("force_uri_protocol", "https")
-    return "data:image/png;charset=utf-8;base64,%s" % (
-        base64.b64encode(graph.render_to_png(**kwargs))
-        .decode("utf-8")
-        .replace("\n", "")
-    )
 
 
 if __name__ == "__main__":

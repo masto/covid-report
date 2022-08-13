@@ -167,9 +167,7 @@ cases per 100k (7-Day Average)
 <br />
 
 <div>
-  <img src="{{ render_png_data_uri(charts.cases_per_100k_7day, show_legend=False,
-  explicit_size=True, height=100, width=400, margin=2, max_scale=5,
-  order_min=0.1, y_labels_major=[0]) }}">
+  <img src="{{ history_chart_uri }}">
 </div>
 <div>
   {% set prev_day_delta = today["cases_per_100k_7d"] - prev_day["cases_per_100k_7d"] %}
