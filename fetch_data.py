@@ -11,11 +11,11 @@ from pygal.style import CleanStyle
 from sodapy import Socrata
 
 # https://health.data.ny.gov/resource/xdss-u53e.csv
-NYS_DATASET_ID = "xdss-u53e"
+_NYS_DATASET_ID = "xdss-u53e"
 # https://health.data.ny.gov/Health/New-York-State-Population-Data-Beginning-2003/e9uj-s3sf
-NASSAU_POPULATION = 1356924
+_NASSAU_POPULATION = 1356924
 
-CACHE_TIME = 60 * 60  # 1 hour
+_CACHE_TIME = 60 * 60  # 1 hour
 
 
 def get_nys_data():
@@ -27,7 +27,7 @@ def get_nys_data():
     # Check cache
     now = time.monotonic()
     try:
-        if now < get_nys_data.cached_at + CACHE_TIME:
+        if now < get_nys_data.cached_at + _CACHE_TIME:
             logging.warning("get_nys_data() returning from cache")
             return get_nys_data.cached_data
     except AttributeError:
@@ -35,7 +35,7 @@ def get_nys_data():
 
     with Socrata("health.data.ny.gov", os.environ.get("NYS_APP_TOKEN", None)) as client:
         data = client.get(
-            NYS_DATASET_ID, where="county = 'Nassau'", order="test_date DESC", limit=37
+            _NYS_DATASET_ID, where="county = 'Nassau'", order="test_date DESC", limit=37
         )
 
     dataframe = (
@@ -54,7 +54,8 @@ def get_nys_data():
         )
         .set_index("test_date")
         .assign(
-            cases_per_100k=lambda df: df["new_positives"] / (NASSAU_POPULATION / 100000)
+            cases_per_100k=lambda df: df["new_positives"]
+            / (_NASSAU_POPULATION / 100000)
         )
         .assign(
             cases_per_100k_7d=lambda df: df["cases_per_100k"]
