@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, render_template
 from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Attachment, Mail, MailSettings, SandBoxMode
+from sendgrid.helpers.mail import Attachment, Mail
 
 import fetch_data
 
