@@ -10,15 +10,16 @@ from pygal.style import CleanStyle
 from sodapy import Socrata
 
 # https://health.data.ny.gov/resource/xdss-u53e.csv
-_NYS_DATASET_ID = "xdss-u53e"
+_NYS_DATASET_ID = os.environ.get("NYS_DATASET_ID", "xdss-u53e")
 # https://health.data.ny.gov/Health/New-York-State-Population-Data-Beginning-2003/e9uj-s3sf
-_NASSAU_POPULATION = 1356924
+_POPULATION = int(os.environ.get("POPULATION", 1356924))
+_NYS_FILTER = os.environ.get("NYS_FILTER", "county = 'Nassau'")
 
 _CACHE_TIME = 60 * 60  # 1 hour
 
 
 def get_nys_data():
-    """Fetch last 30 days of Nassau County COVID stats.
+    """Fetch last 30 days of NYS COVID stats.
 
     Augmented with cases/100k and rolling 7-day average.
     """
@@ -34,7 +35,7 @@ def get_nys_data():
 
     with Socrata("health.data.ny.gov", os.environ.get("NYS_APP_TOKEN", None)) as client:
         data = client.get(
-            _NYS_DATASET_ID, where="county = 'Nassau'", order="test_date DESC", limit=37
+            _NYS_DATASET_ID, where=_NYS_FILTER, order="test_date DESC", limit=37
         )
 
     dataframe = (
@@ -52,10 +53,7 @@ def get_nys_data():
             }
         )
         .set_index("test_date")
-        .assign(
-            cases_per_100k=lambda df: df["new_positives"]
-            / (_NASSAU_POPULATION / 100000)
-        )
+        .assign(cases_per_100k=lambda df: df["new_positives"] / (_POPULATION / 100000))
         .assign(
             cases_per_100k_7d=lambda df: df["cases_per_100k"]
             .rolling(window="7D")
