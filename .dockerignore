@@ -1,5 +1,6 @@
 Dockerfile
 README.md
+example.png
 .env
 .venv
 __pycache__/
