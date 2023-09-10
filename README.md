@@ -40,13 +40,10 @@ All configuration is via environment variables.
 * SG_API_KEY=*SendGrid API key*
 * SG_FROM_EMAIL=*Address to send e-mail report from*
 * SG_TO_EMAILS=*Addresses to send e-mail report to*
-* NYS_APP_TOKEN=*Optional Socrata API token (https://health.data.ny.gov/signup)*
+* NYS_APP_TOKEN=*Optional Socrata API token (<https://health.data.ny.gov/signup>)*
 * NYS_FILTER=*Socrata $where filter
-  (https://dev.socrata.com/docs/queries/where.html). Default: county = 'Nassau'*
-* POPULATION=*Population for calculating per-100k values (obtain from
-  e.g.
-  https://health.data.ny.gov/Health/New-York-State-Population-Data-Beginning-2003/e9uj-s3sf).
-  Defaults to some number I hard coded for Nassau County.*
+  (<https://dev.socrata.com/docs/queries/where.html>). Default: county =
+  'Nassau' AND geography_level = 'COUNTY'*
 
 ## What if I'm not in New York State?
 

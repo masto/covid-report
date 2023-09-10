@@ -5,8 +5,8 @@
 {%- set today = data.daily.iloc[0] %}
 {%- set prev_day = data.daily.iloc[1] %}
 {%- set week_ago = data.daily.iloc[7] %}
-{%- set min_30 = data.daily[:30]["cases_per_100k_7d"].min() %}
-{%- set max_30 = data.daily[:30]["cases_per_100k_7d"].max() %}
+{%- set min_30 = data.daily[:30]["total_cases_per_100k_7_day"].min() %}
+{%- set max_30 = data.daily[:30]["total_cases_per_100k_7_day"].max() %}
 <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -135,7 +135,7 @@
                                         <td role="modules-container" style="padding:0px 0px 0px 0px; color:#000000; text-align:left;" bgcolor="#FFFFFF" width="100%" align="left"><table class="module preheader preheader-hide" role="module" data-type="preheader" border="0" cellpadding="0" cellspacing="0" width="100%" style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
     <tr>
       <td role="module-content">
-        <p>{{ today["cases_per_100k_7d"]|round(1) }} cases</p>
+        <p>{{ today["total_cases_per_100k_7_day"]|round(1) }} cases</p>
       </td>
     </tr>
   </table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="feb35d32-afec-4719-b574-7dc3ffc871fe" data-mc-module-version="2019-10-22">
@@ -160,7 +160,7 @@
 <div style="font-family: inherit; text-align: inherit"><br></div>
 <div style="font-family: inherit; text-align: inherit"><span style="font-family:
 tahoma, geneva, sans-serif; font-size: 48px">
-<strong>{{ today["cases_per_100k_7d"]|round(1) }}</strong>
+<strong>{{ today["total_cases_per_100k_7_day"]|round(1) }}</strong>
 </span>
 cases per 100k (7-Day Average)
 </div>
@@ -170,23 +170,23 @@ cases per 100k (7-Day Average)
   <img src="{{ history_chart_uri }}">
 </div>
 <div>
-  {% set prev_day_delta = today["cases_per_100k_7d"] - prev_day["cases_per_100k_7d"] %}
+  {% set prev_day_delta = today["total_cases_per_100k_7_day"] - prev_day["total_cases_per_100k_7_day"] %}
   Previous day ({{ prev_day.name.strftime('%-m/%-d') }}): {{
-  prev_day["cases_per_100k_7d"]|round(1) }}
+  prev_day["total_cases_per_100k_7_day"]|round(1) }}
   <span class="{{ delta_color(prev_day_delta) }}">({{ "%+.1f" % prev_day_delta }})</span>
 </div>
 <div>
-  {% set week_ago_delta = today["cases_per_100k_7d"] - week_ago["cases_per_100k_7d"] %}
-  Last week ({{ week_ago.name.strftime('%-m/%-d') }}): {{ week_ago["cases_per_100k_7d"]|round(1) }}
+  {% set week_ago_delta = today["total_cases_per_100k_7_day"] - week_ago["total_cases_per_100k_7_day"] %}
+  Last week ({{ week_ago.name.strftime('%-m/%-d') }}): {{ week_ago["total_cases_per_100k_7_day"]|round(1) }}
   <span class="{{ delta_color(week_ago_delta) }}">({{ "%+.1f" % week_ago_delta }})</span>
 </div>
 <div>
-  {% set max_30_delta = today["cases_per_100k_7d"] - max_30 %}
+  {% set max_30_delta = today["total_cases_per_100k_7_day"] - max_30 %}
   30-day high: {{ max_30|round(1) }}
   <span class="{{ delta_color(max_30_delta) }}">({{ "%+.1f" % max_30_delta }})</span>
 </div>
 <div>
-  {% set min_30_delta = today["cases_per_100k_7d"] - min_30 %}
+  {% set min_30_delta = today["total_cases_per_100k_7_day"] - min_30 %}
   30-day low: {{ min_30|round(1) }}
   <span class="{{ delta_color(min_30_delta) }}">({{ "%+.1f" % min_30_delta }})</span>
 </div>
