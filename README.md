@@ -42,8 +42,8 @@ All configuration is via environment variables.
 * SG_TO_EMAILS=*Addresses to send e-mail report to*
 * NYS_APP_TOKEN=*Optional Socrata API token (<https://health.data.ny.gov/signup>)*
 * NYS_FILTER=*Socrata $where filter
-  (<https://dev.socrata.com/docs/queries/where.html>). Default: county =
-  'Nassau' AND geography_level = 'COUNTY'*
+  (<https://dev.socrata.com/docs/queries/where.html>). Default:
+  geography_description = 'Nassau' AND geography_level = 'COUNTY'*
 
 ## What if I'm not in New York State?
 
